@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RPS 2.0 — Reservation Dispatch Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div>
+        <h1>RPS&nbsp;2.0</h1>
+        <p>Agentic Reservation Dispatch</p>
+      </div>
+    </div>
+    <div class="counters" id="counters">
+      <div class="counter"><span class="counter-num" id="c-total">—</span><span class="counter-label">fleet</span></div>
+      <div class="counter"><span class="counter-num ok" id="c-avail">—</span><span class="counter-label">available</span></div>
+      <div class="counter"><span class="counter-num warn" id="c-active">—</span><span class="counter-label">on hire</span></div>
+      <div class="counter"><span class="counter-num bad" id="c-maint">—</span><span class="counter-label">maintenance</span></div>
+    </div>
+    <div class="status-cluster">
+      <span class="pill" id="nlu-badge">NLU&nbsp;·&nbsp;<b>—</b></span>
+      <span class="pill" id="db-badge">DB&nbsp;·&nbsp;<b>—</b></span>
+    </div>
+  </header>
+
+  <main class="grid">
+    <!-- COLUMN 1 — Assistant -->
+    <section class="panel chat" aria-label="Reservation assistant">
+      <div class="panel-head">
+        <h2>Assistant</h2>
+        <span class="panel-tag">natural language</span>
+      </div>
+      <div class="chat-log" id="chat-log"></div>
+      <div class="chips" id="chips"></div>
+      <div class="composer">
+        <input id="msg" type="text" autocomplete="off"
+               placeholder="e.g. is an SUV free this weekend?" />
+        <button id="send" aria-label="Send">Send</button>
+      </div>
+    </section>
+
+    <!-- COLUMN 2 — Fleet + Reservations -->
+    <section class="panel board" aria-label="Fleet and reservations">
+      <div class="panel-head">
+        <h2>Fleet board</h2>
+        <span class="legend">
+          <i class="lamp ok"></i>available
+          <i class="lamp warn"></i>on&nbsp;hire
+          <i class="lamp bad"></i>maintenance
+        </span>
+      </div>
+      <div class="fleet" id="fleet"></div>
+
+      <div class="panel-head sub">
+        <h2>Active reservations</h2>
+        <span class="panel-tag" id="res-count">—</span>
+      </div>
+      <div class="table-wrap">
+        <table class="res-table">
+          <thead>
+            <tr><th>ID</th><th>Vehicle</th><th>Customer</th><th>Window</th><th>Nights</th></tr>
+          </thead>
+          <tbody id="res-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- COLUMN 3 — Agent pipeline + AOP -->
+    <section class="panel inspect" aria-label="Agent pipeline and cross-cutting concerns">
+      <div class="panel-head">
+        <h2>Agent pipeline</h2>
+        <span class="panel-tag">LangGraph</span>
+      </div>
+      <ol class="pipeline" id="pipeline">
+        <li class="step idle"><span class="node-dot"></span><div><b>understand</b><em>awaiting input</em></div></li>
+        <li class="step idle"><span class="node-dot"></span><div><b>route</b><em>conditional edge</em></div></li>
+        <li class="step idle"><span class="node-dot"></span><div><b>action</b><em>availability · booking · fleet</em></div></li>
+      </ol>
+
+      <div class="panel-head sub">
+        <h2>Cross-cutting (AOP)</h2>
+        <span class="panel-tag" id="latency-tag">— ms avg</span>
+      </div>
+      <div class="audit" id="audit"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>Reservation Processing System 2.0 · prototype</span>
+    <span class="footer-note" id="footer-note"></span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
