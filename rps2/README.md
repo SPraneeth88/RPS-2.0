@@ -207,4 +207,4 @@ rps2/
 └── tests/
 ```
 
-See **INTERVIEW_GUIDE.md** for a full walkthrough and talking points.
+
